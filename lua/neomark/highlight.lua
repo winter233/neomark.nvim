@@ -151,10 +151,6 @@ function M.is_valid_win(win)
   if vim.fn.getcmdwintype() ~= "" then
     return false
   end
-  -- dont do anything for floating windows
-  if M.is_float(win) then
-    return false
-  end
   local buf = vim.api.nvim_win_get_buf(win)
   return M.is_valid_buf(buf)
 end
@@ -166,7 +162,7 @@ end
 function M.is_valid_buf(buf)
   -- Skip special buffers
   local buftype = vim.api.nvim_buf_get_option(buf, "buftype")
-  if buftype ~= "" and buftype ~= "quickfix" then
+  if buftype ~= "" and buftype ~= "quickfix" and buftype ~= "terminal" then
     return false
   end
   local filetype = vim.api.nvim_buf_get_option(buf, "filetype")
